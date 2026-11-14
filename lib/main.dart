@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'screen/home_shell.dart';
 import 'screen/login_screen.dart';
 import 'screen/player_screen.dart';
+import 'screen/register_screen.dart';
+import 'screen/splash_screen.dart';
 import 'theme.dart';
 
 void main() => runApp(const SoundifyApp());
@@ -19,7 +21,9 @@ class SoundifyApp extends StatelessWidget {
       theme: buildAppTheme(),
       initialRoute: '/',
       routes: {
-        '/': (_) => const LoginScreen(),
+        '/': (_) => const SplashScreen(), // cek sesi login dulu
+        '/login': (_) => const LoginScreen(),
+        '/register': (_) => const RegisterScreen(),
         '/home': (_) => const HomeShell(),
         '/player': (_) => const PlayerScreen(),
       },

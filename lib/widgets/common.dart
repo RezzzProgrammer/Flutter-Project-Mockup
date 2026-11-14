@@ -189,6 +189,61 @@ class AppChip extends StatelessWidget {
   }
 }
 
+/// Label kecil di atas kolom input.
+class FieldLabel extends StatelessWidget {
+  const FieldLabel(this.text, {super.key});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+          color: AppColors.textMuted,
+        ),
+      ),
+    );
+  }
+}
+
+/// Kotak pesan error (mis. "Email/username atau password salah.").
+class ErrorBanner extends StatelessWidget {
+  const ErrorBanner(this.message, {super.key});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.errorSoft,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.error),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.error_outline, color: AppColors.error, size: 20),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(fontSize: 13, color: AppColors.text),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /// Dekorasi kolom input yang seragam di seluruh app.
 InputDecoration appInput({String? hint, Widget? prefix, bool pill = false}) {
   OutlineInputBorder border(Color c) => OutlineInputBorder(
@@ -205,6 +260,10 @@ InputDecoration appInput({String? hint, Widget? prefix, bool pill = false}) {
     border: border(AppColors.line),
     enabledBorder: border(AppColors.line),
     focusedBorder: border(AppColors.primary),
+    errorBorder: border(AppColors.error),
+    focusedErrorBorder: border(AppColors.error),
+    errorStyle: const TextStyle(color: AppColors.error, fontSize: 12),
+    errorMaxLines: 3,
   );
 }
 

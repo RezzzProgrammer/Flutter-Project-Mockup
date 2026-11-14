@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 
+import '../services/api_services.dart';
+import '../services/session.dart';
 import '../theme.dart';
 import '../widgets/common.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
+  Future<void> _logout(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    final token = Session.token;
+    if (token != null) await ApiService.instance.logout(token);
+    await Session.clear();
+    navigator.pushNamedAndRemoveUntil('/login', (_) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = Session.user;
+
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
       children: [
@@ -43,22 +55,23 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 14),
-        const Center(
+        Center(
           child: Text(
-            'Nama Pengguna',
-            style: TextStyle(
+            user?.username ?? 'Pengguna',
+            style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w800,
               letterSpacing: -0.4,
             ),
           ),
         ),
-        const Center(
-          child: Text(
-            '@username',
-            style: TextStyle(fontSize: 14, color: AppColors.textMuted),
+        if (user != null)
+          Center(
+            child: Text(
+              user.email,
+              style: const TextStyle(fontSize: 14, color: AppColors.textMuted),
+            ),
           ),
-        ),
         const SizedBox(height: 12),
         Center(
           child: OutlinedButton(
@@ -119,6 +132,16 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
           ),
+        ),
+        const SizedBox(height: 28),
+        OutlinedButton.icon(
+          style: AppButtons.small.copyWith(
+            minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+            foregroundColor: const WidgetStatePropertyAll(AppColors.error),
+          ),
+          onPressed: () => _logout(context),
+          icon: const Icon(Icons.logout, size: 18),
+          label: const Text('Keluar'),
         ),
       ],
     );

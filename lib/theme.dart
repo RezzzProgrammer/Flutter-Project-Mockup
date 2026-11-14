@@ -12,6 +12,8 @@ class AppColors {
   static const text = Color(0xFFF1F1F1); // Off-White
   static const textMuted = Color(0xFF9999AA); // Muted Lavender
   static const glow = Color(0x478A2BE2); // violet transparan untuk cahaya latar
+  static const error = Color(0xFFFF6B8A); // pesan error / aksi keluar
+  static const errorSoft = Color(0x1FFF6B8A); // latar kotak error
 
   static const brandGradient = LinearGradient(
     colors: [primary, secondary],
